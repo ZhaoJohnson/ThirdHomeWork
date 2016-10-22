@@ -42,8 +42,13 @@
   <ItemGroup>
     <Compile Include="HeroStoryBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReadSoryBusiness.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ThirdWorkCommon\ThirdWorkCommon.csproj">
+      <Project>{1486BBFA-AC09-4B89-A388-E793A090377D}</Project>
+      <Name>ThirdWorkCommon</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ThirdWorkInterFace\ThirdWorkInterFace.csproj">
       <Project>{23E56956-12F6-42EB-9EE5-F94D49E4E01E}</Project>
       <Name>ThirdWorkInterFace</Name>

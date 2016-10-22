@@ -24,6 +24,7 @@ namespace ThirdWorkCommon
             if (selectSingleNode == null) return null;
             XmlNodeList xmlNodeList = selectSingleNode.ChildNodes;
             List<Action> result = (from XmlNode list in xmlNodeList where list.Name == propertyName from XmlElement child in list.ChildNodes select (Action)(() => Console.WriteLine(child.InnerText))).ToList();
+            
             return result;
         }
 

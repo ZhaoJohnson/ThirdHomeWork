@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using ThirdWorkBusiness;
 using ThirdWorkModel;
@@ -13,8 +14,18 @@ namespace ThirdHomeWork
     {
         static void Main(string[] args)
         {
-            LegendService<HeroStoryBusiness> Service = new LegendService<HeroStoryBusiness>();
-            Service.ShowTest();
+            
+            try
+            {
+                LegendService Service = new LegendService();
+                Service.ShowTest();
+                Thread.Sleep(100000);
+                Console.ReadKey();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
