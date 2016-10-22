@@ -15,7 +15,6 @@ namespace ThirdHomeWork
     {
         static void Main(string[] args)
         {
-            
             try
             {
                 LegendService Service = new LegendService();
@@ -23,8 +22,17 @@ namespace ThirdHomeWork
                 Console.WriteLine("请按任意键退出");
                 Console.ReadKey();
             }
+            catch (AggregateException aex)
+            {
+                foreach (var item in aex.InnerExceptions)
+                {
+                    Console.WriteLine(item.Message);
+                }
+                Console.ReadKey();
+            }
             catch (Exception ex)
             {
+
                 MyLog.SaveEx(ex.Message);
             }
         }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -70,6 +71,7 @@ namespace ThirdWorkBusiness
 
                 if (!Standby)
                 {
+                    
                     MyLog.OutputAndSaveTxt($"因为{LoadHeroModel.MyHero}的到来:天龙八部就此拉开序幕");
                     Thread.Sleep(new Random().Next(1000, 2000));
                     Standby = true;
