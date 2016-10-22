@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -53,6 +54,16 @@ namespace ThirdWorkBusiness
             Thread.Sleep(new Random().Next(1000, 2000));
             Task result = taskFactory.StartNew(() =>
             {
+                Thread.Sleep(new Random().Next(1000, 2000));
+                var thisPositionStory = LoadXmlStory().MyFullStory.FirstOrDefault(p => p.HeroPosition == message) ?? null;
+                if (thisPositionStory != null)
+                {
+                    foreach (var item in thisPositionStory.LevelUpStory)
+                    {
+                        Thread.Sleep(new Random().Next(1000, 2000));
+                        Console.WriteLine(LoadHeroModel.MyHero + "：" + item);
+                    }
+                }
                 Console.WriteLine($"{LoadHeroModel.MyHero}:现在成为了{message},时间在{time}");
                 Thread.Sleep(new Random().Next(1000, 2000));
             });
@@ -68,9 +79,11 @@ namespace ThirdWorkBusiness
             }
             return result;
         }
-        private void LoadXmlStory()
+        private static FullStoryModel LoadXmlStory()
         {
-            var tt = MyXmlHelper.DeserializeXMLFileToObject<FullStoryModel>("DemonStory.xml");
+            AppSettingsReader AppRead = new AppSettingsReader();
+            var settingXml = AppRead.GetValue("StoryXml", typeof(string)).ToString();
+            return MyXmlHelper.DeserializeXMLFileToObject<FullStoryModel>(settingXml);
         }
     }
 }
