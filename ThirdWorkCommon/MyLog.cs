@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace ThirdWorkCommon
@@ -10,7 +8,8 @@ namespace ThirdWorkCommon
     public static class MyLog
     {
         private static object objectLock = new object();
-        static readonly string TheBasePath = AppDomain.CurrentDomain.BaseDirectory;
+        private static readonly string TheBasePath = AppDomain.CurrentDomain.BaseDirectory;
+
         /// <summary>
         ///  通用输出并记录，主线程
         /// </summary>
@@ -33,6 +32,7 @@ namespace ThirdWorkCommon
                 rwl.ReleaseWriterLock();
             }
         }
+
         /// <summary>
         /// 异常调用此方法记录
         /// </summary>
@@ -57,6 +57,5 @@ namespace ThirdWorkCommon
                 myfs.Close();
             }
         }
-
     }
 }

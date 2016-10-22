@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.IO;
-using Newtonsoft.Json;
 
 namespace ThirdWorkCommon
 {
     public class MyJsonHelper
     {
+        private static readonly string TheBasePath = AppDomain.CurrentDomain.BaseDirectory;
 
-        static readonly string TheBasePath = AppDomain.CurrentDomain.BaseDirectory;
         /// <summary>
         /// 将对象序列化为Json
         /// </summary>
@@ -22,6 +22,7 @@ namespace ThirdWorkCommon
                 File.Create(Path.Combine(TheBasePath, myjsonName));
             File.WriteAllText(Path.Combine(TheBasePath, myjsonName), tjson);
         }
+
         /// <summary>
         /// 反序列化创建对象
         /// </summary>
@@ -36,4 +37,3 @@ namespace ThirdWorkCommon
         }
     }
 }
-

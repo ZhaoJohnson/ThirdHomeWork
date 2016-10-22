@@ -1,38 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using ThirdWorkBusiness;
 using ThirdWorkCommon;
-using ThirdWorkModel;
 using ThirdWorkService;
 
 namespace ThirdHomeWork
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             try
             {
                 LegendService Service = new LegendService();
-                Service.ShowTest();
+                Service.Show();
                 Console.WriteLine("请按任意键退出");
-                Console.ReadKey();
-            }
-            catch (AggregateException aex)
-            {
-                foreach (var item in aex.InnerExceptions)
-                {
-                    Console.WriteLine(item.Message);
-                }
                 Console.ReadKey();
             }
             catch (Exception ex)
             {
-
                 MyLog.SaveEx(ex.Message);
             }
         }
