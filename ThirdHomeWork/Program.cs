@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ThirdWorkBusiness;
+using ThirdWorkCommon;
 using ThirdWorkModel;
 using ThirdWorkService;
 
@@ -19,12 +20,12 @@ namespace ThirdHomeWork
             {
                 LegendService Service = new LegendService();
                 Service.ShowTest();
-                Thread.Sleep(100000);
+                Console.WriteLine("请按任意键退出");
                 Console.ReadKey();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                MyLog.SaveEx(ex.Message);
             }
         }
     }

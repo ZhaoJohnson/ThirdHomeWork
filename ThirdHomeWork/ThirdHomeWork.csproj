@@ -54,6 +54,10 @@
       <Project>{A9C8909A-745D-4686-9DFF-283207D34CCA}</Project>
       <Name>ThirdWorkBusiness</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ThirdWorkCommon\ThirdWorkCommon.csproj">
+      <Project>{1486BBFA-AC09-4B89-A388-E793A090377D}</Project>
+      <Name>ThirdWorkCommon</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ThirdWorkModel\ThirdWorkModel.csproj">
       <Project>{F5A82D6F-C4B5-4127-A3D5-4E16EDF5E6D2}</Project>
       <Name>ThirdWorkModel</Name>

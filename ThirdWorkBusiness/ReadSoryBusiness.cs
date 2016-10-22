@@ -33,11 +33,6 @@ namespace ThirdWorkBusiness
             foreach (string item in LoadHeroModel.HeroPosition)
             {
                 taskList.Add(SingleRead(item));
-                //taskList.Add(new Task(() =>
-                //{
-                //    Console.WriteLine($"{LoadHeroModel.MyHero}正在练级中.....");
-                //    Thread.Sleep(new Random().Next(1000, 2000));
-                //}));
             }
             return taskList;
         }
@@ -52,27 +47,30 @@ namespace ThirdWorkBusiness
             TaskFactory taskFactory = new TaskFactory();
             string time = DateTime.Now.ToString();
             Thread.Sleep(new Random().Next(1000, 2000));
-            Task result = taskFactory.StartNew(() =>
-            {
-                Thread.Sleep(new Random().Next(1000, 2000));
-                var thisPositionStory = LoadXmlStory().MyFullStory.FirstOrDefault(p => p.HeroPosition == message) ?? null;
-                if (thisPositionStory != null)
-                {
-                    foreach (var item in thisPositionStory.LevelUpStory)
-                    {
-                        Thread.Sleep(new Random().Next(1000, 2000));
-                        Console.WriteLine(LoadHeroModel.MyHero + "：" + item);
-                    }
-                }
-                Console.WriteLine($"{LoadHeroModel.MyHero}:现在成为了{message},时间在{time}");
-                Thread.Sleep(new Random().Next(1000, 2000));
-            });
-            Task.WaitAny(new Task[] { result });
+            Task result;
             lock (objectLock)
             {
+                result = taskFactory.StartNew(() =>
+           {
+               Console.ForegroundColor = RadomColor();
+               Thread.Sleep(new Random().Next(1000, 2000));
+               var thisPositionStory = LoadXmlStory().MyFullStory.FirstOrDefault(p => p.HeroPosition == message) ?? null;
+               if (thisPositionStory != null)
+               {
+                   foreach (var item in thisPositionStory.LevelUpStory)
+                   {
+                       Thread.Sleep(new Random().Next(1000, 2000));
+                       MyLog.OutputAndSaveTxt(LoadHeroModel.MyHero + "：" + item);
+                   }
+               }
+               MyLog.OutputAndSaveTxt($"{LoadHeroModel.MyHero}:完成了剧情《{message}》,时间在{time}");
+               Thread.Sleep(new Random().Next(1000, 2000));
+           });
+                Task.WaitAny(new Task[] { result });
+
                 if (!Standby)
                 {
-                    Console.WriteLine("ReadSoryBusiness天龙八部就此拉开序幕");
+                    MyLog.OutputAndSaveTxt($"因为{LoadHeroModel.MyHero}的到来:天龙八部就此拉开序幕");
                     Thread.Sleep(new Random().Next(1000, 2000));
                     Standby = true;
                 }
@@ -84,6 +82,20 @@ namespace ThirdWorkBusiness
             AppSettingsReader AppRead = new AppSettingsReader();
             var settingXml = AppRead.GetValue("StoryXml", typeof(string)).ToString();
             return MyXmlHelper.DeserializeXMLFileToObject<FullStoryModel>(settingXml);
+        }
+        private ConsoleColor RadomColor()
+        {
+            switch (LoadHeroModel.MyHero)
+            {
+                case "乔峰":
+                    return ConsoleColor.DarkYellow;
+                case "段誉":
+                    return ConsoleColor.Green;
+                case "虚竹":
+                    return ConsoleColor.Red;
+                default:
+                    return ConsoleColor.White;
+            }
         }
     }
 }

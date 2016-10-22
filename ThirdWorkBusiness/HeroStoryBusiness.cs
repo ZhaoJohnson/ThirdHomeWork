@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using ThirdWorkCommon;
 using ThirdWorkInterFace.IBusiness;
 using ThirdWorkModel;
 
@@ -26,19 +27,18 @@ namespace ThirdWorkBusiness
             return () =>
             {
                 List<Task> taskList = new List<Task>();
+                TaskFactory taskFactory = new TaskFactory();
+
                 ReadSoryBusiness<HeroModel> bu = new ReadSoryBusiness<HeroModel>(_HeroModel);
                 taskList.AddRange(bu.LoadStoryTask().ToArray());
 
-                TaskFactory taskFactory = new TaskFactory();
-
                 taskFactory.StartNew(taskList.ToArray);
-                
+
                 taskFactory.ContinueWhenAll(taskList.ToArray(), t =>
                 {
                     //函数执行完后执行，执行一次
                     Thread.Sleep(new Random().Next(1000, 2000));
-                    Console.WriteLine($"{_HeroModel.MyHero}已经通关了，taskFactory.ContinueWhenAny {Thread.CurrentThread.ManagedThreadId}");
-                   
+                    MyLog.OutputAndSaveTxt($"{_HeroModel.MyHero}已经通关了");
                 });
             };
         }
