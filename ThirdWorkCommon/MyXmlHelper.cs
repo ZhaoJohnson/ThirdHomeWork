@@ -26,35 +26,20 @@ namespace ThirdWorkCommon
             return result;
         }
 
-        //public static T ReadToObject<T>(string appsettingName, string singleNode, string propertyName)
-        //{
-        //    Type type = typeof(T);
-        //    string TheBasePath = AppDomain.CurrentDomain.BaseDirectory;
-        //    XmlSerializer xmls=XmlSerializerFactory
-        //                var myxmlName = ConfigurationSettings.AppSettings[appsettingName].ToString();
-        //    string fullPath = Path.Combine(TheBasePath, myxmlName);
-        //    XmlDocument xmlRead = new XmlDocument();
-        //    xmlRead.Load(fullPath);
-        //    XmlNode selectSingleNode = xmlRead.SelectSingleNode(singleNode);
-        //    if (selectSingleNode == null)  throw new Exception("Error");
-        //    XmlNodeList xmlNodeList = selectSingleNode.ChildNodes;
-        //    List<Action> result = (from XmlNode list in xmlNodeList where list.Name == propertyName from XmlElement child in list.ChildNodes select (Action)(() => Console.WriteLine(child.InnerText))).ToList();
-        //    return default(T);
-        //}
         public static T Deserialize<T>(string XmlFilename)
         {
             string path = Path.Combine(TheBasePath, XmlFilename);
             Type targetType = typeof(T);
-            //if (string.IsNullOrEmpty(path) || !File.Exists(path)
-            //    || targetType == null)
-            //{
-            //    return default(T);
-            //}
-            object obj = null;
-            if (File.Exists(path))
+            if (string.IsNullOrEmpty(path) || !File.Exists(path)
+                || targetType == null)
             {
-                Console.WriteLine("123");
+                return default(T);
             }
+            object obj = null;
+            //if (File.Exists(path))
+            //{
+            //    Console.WriteLine("找不到文件");
+            //}
             try
             {
                 XmlSerializerFactory xmlSerializerFactory = new XmlSerializerFactory();

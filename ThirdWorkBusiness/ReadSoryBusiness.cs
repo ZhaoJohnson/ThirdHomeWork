@@ -5,12 +5,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ThirdWorkCommon;
+using ThirdWorkInterFace.IBusiness;
 using ThirdWorkModel;
 using ThirdWorkModel.CommonModel;
 
 namespace ThirdWorkBusiness
 {
-    public class ReadSoryBusiness<T>
+    public class ReadSoryBusiness<T> : IReadSoryBusiness
         where T : HeroModel
     {
         private static object objectLock = new object();
@@ -104,6 +105,10 @@ namespace ThirdWorkBusiness
                 default:
                     return ConsoleColor.White;
             }
+        }
+
+        public void Dispose()
+        {
         }
     }
 }
