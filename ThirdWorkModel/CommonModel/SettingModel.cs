@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ThirdWorkInterFace
+namespace ThirdWorkModel.CommonModel
 {
-    public interface IHero
+    public class SettingModel
     {
+        public string[] HeroName { get; set; }
     }
 }

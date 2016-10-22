@@ -8,9 +8,9 @@ using ThirdWorkModel;
 
 namespace ThirdWorkBusiness
 {
-    public class HeroStory : IHeroStory
+    public class HeroStoryBusiness : IHeroStoryBusiness
     {
-        public Hero MyHero { get; set; }
+        public HeroModel MyHero { get; set; }
         public List<Task> MyHeroStory { get; set; }
         public void Dispose()
         {

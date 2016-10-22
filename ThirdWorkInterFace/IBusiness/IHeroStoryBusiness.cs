@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ThirdWorkInterFace.IBusiness
 {
-    public interface IHeroStory:IDisposable
+    public interface IHeroStoryBusiness:IDisposable
     {
     }
 }

@@ -28,9 +28,9 @@ namespace ThirdWorkCommon
         /// <typeparam name="T"></typeparam>
         /// <param name="t"></param>
         /// <returns></returns>
-        public static T Json2Object<T>(T t)
+        public static T Json2Object<T>(string FileName)
         {
-            string myjsonName = typeof(T).Name + ".json";
+            string myjsonName = FileName + ".json";
             var fillJson = File.ReadAllText(Path.Combine(TheBasePath, myjsonName));
             return JsonConvert.DeserializeObject<T>(fillJson);
         }

@@ -44,9 +44,21 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ThirdWorkBusiness\ThirdWorkBusiness.csproj">
+      <Project>{A9C8909A-745D-4686-9DFF-283207D34CCA}</Project>
+      <Name>ThirdWorkBusiness</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ThirdWorkCommon\ThirdWorkCommon.csproj">
+      <Project>{1486BBFA-AC09-4B89-A388-E793A090377D}</Project>
+      <Name>ThirdWorkCommon</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ThirdWorkInterFace\ThirdWorkInterFace.csproj">
       <Project>{23E56956-12F6-42EB-9EE5-F94D49E4E01E}</Project>
       <Name>ThirdWorkInterFace</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ThirdWorkModel\ThirdWorkModel.csproj">
+      <Project>{F5A82D6F-C4B5-4127-A3D5-4E16EDF5E6D2}</Project>
+      <Name>ThirdWorkModel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ThirdWorkInterFace;
 
-namespace ThirdWorkModel
+namespace ThirdWorkInterFace
 {
-    public class Hero:IHero
+    public interface IHeroModel
     {
-
     }
 }

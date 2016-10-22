@@ -49,6 +49,21 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ThirdWorkBusiness\ThirdWorkBusiness.csproj">
+      <Project>{A9C8909A-745D-4686-9DFF-283207D34CCA}</Project>
+      <Name>ThirdWorkBusiness</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ThirdWorkModel\ThirdWorkModel.csproj">
+      <Project>{F5A82D6F-C4B5-4127-A3D5-4E16EDF5E6D2}</Project>
+      <Name>ThirdWorkModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ThirdWorkService\ThirdWorkService.csproj">
+      <Project>{0F161765-77B5-4B69-B36D-7321252803A7}</Project>
+      <Name>ThirdWorkService</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
