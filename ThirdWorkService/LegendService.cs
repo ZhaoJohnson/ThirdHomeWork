@@ -25,39 +25,24 @@ namespace ThirdWorkService
         public void Show()
         {
             #region Setting
+
             Stopwatch watch = new Stopwatch();
             watch.Start();
             List<Task> taskList = new List<Task>();
             TaskFactory taskFactory = new TaskFactory();
             AppSettingsReader AppRead = new AppSettingsReader();
             var settingXml = AppRead.GetValue("ProjectSettingXml", typeof(string)).ToString();
-            #endregion
 
-            #region MyRegionTest
+            #endregion Setting
+
+            #region NewStoryReadService
+
             foreach (HeroModel item in LoadHero(LoadSetting(settingXml)))
             {
-
-                foreach (var oneAct in LoadStoryAction(item))
-                {
-                    taskList.Add(Task.Factory.StartNew(oneAct));
-                }
+                taskList.Add(Begin(item));
             }
-            #endregion
 
-            Task.Factory.ContinueWhenAny(taskList.ToArray(), t =>
-            {
-                Console.WriteLine("有人已经干过了");
-            });
-
-
-
-            //导入故事剧情
-            foreach (HeroModel item in LoadHero(LoadSetting(settingXml)))
-            {
-
-                HeroStoryBusiness business = new HeroStoryBusiness(item);
-                taskList.Add(taskFactory.StartNew(business.ShowStory()));
-            }
+            #endregion NewStoryReadService
 
             #region 监控雷劈线程
 
@@ -68,23 +53,17 @@ namespace ThirdWorkService
                     Thread.Sleep(1000);
                     int stop = new Random().Next(0, 10000);
                     Console.WriteLine();
-                    try
+
+                    if (stop == int.Parse(DateTime.Now.Year.ToString()))
                     {
-                        if (stop == int.Parse(DateTime.Now.Year.ToString()))
-                        {
-                            Thread.Sleep(1000);
-                            throw new Exception("天降雷霆灭世，天龙八部的故事就此结束...");
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MyLog.SaveEx(ex.Message);
                         Thread.Sleep(1000);
+                        MyLog.SaveEx("天降雷霆灭世，天龙八部的故事就此结束...");
                         Console.WriteLine("程序即将关闭");
                         Thread.Sleep(3000);
                         Environment.Exit(0);
                     }
                 }
+                this.Dispose();
             });
 
             #endregion 监控雷劈线程
@@ -114,6 +93,19 @@ namespace ThirdWorkService
         }
 
         /// <summary>
+        /// 通过await实现列队 播报
+        /// </summary>
+        /// <param name="_heroModel"></param>
+        /// <returns></returns>
+        private async Task Begin(HeroModel _heroModel)
+        {
+            foreach (string item in _heroModel.HeroPosition)
+            {
+                await Task.Factory.StartNew((SingleHero(_heroModel, item)));
+            }
+        }
+
+        /// <summary>
         /// 通过配置文件创建对象
         /// </summary>
         /// <param name="_SettingModel">设置</param>
@@ -130,75 +122,46 @@ namespace ThirdWorkService
             return result;
         }
 
-        private Task ShowStory(HeroModel _HeroModel)
-        {
-            return new Task(() =>
-            {
-                List<Task> taskList = new List<Task>();
-                TaskFactory taskFactory = new TaskFactory();
-
-                ReadSoryBusiness<HeroModel> bu = new ReadSoryBusiness<HeroModel>(_HeroModel);
-                foreach (var act in bu.LoadStoryTask())
-                {
-                    taskList.Add(new Task(act));
-                    taskFactory.StartNew(act);
-                }
-                taskFactory.ContinueWhenAny(taskList.ToArray(), t =>
-                {
-                    Thread.Sleep(new Random().Next(1000, 2000));
-                    MyLog.OutputAndSaveTxt($"因为{_HeroModel.MyHero}的到来:天龙八部就此拉开序幕");
-                });                //独立剧情完成后，执行一次
-                taskFactory.ContinueWhenAll(taskList.ToArray(), t =>
-                {
-                    Thread.Sleep(new Random().Next(1000, 2000));
-                    MyLog.OutputAndSaveTxt($"{_HeroModel.MyHero}已经通关了");
-                });
-            });
-        }
-        private List<Action> LoadStoryAction(HeroModel _heroModel)
-        {
-            List<Action> taskList = new List<Action>();
-            foreach (string item in _heroModel.HeroPosition)
-            {
-                taskList.Add(SingleHero(_heroModel, item));
-            }
-            return taskList;
-        }
-
+        /// <summary>
+        /// 读取个人故事
+        /// </summary>
+        /// <param name="_heroModel"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
         private Action SingleHero(HeroModel _heroModel, string message)
         {
             Action result;
-           // Thread.Sleep(new Random().Next(1000, 2000));
+            Thread.Sleep(new Random().Next(1000, 2000));
             lock (ObjectLock)
             {
                 string time = DateTime.Now.ToString();
-               // Thread.Sleep(new Random().Next(1000, 2000));
+                Thread.Sleep(new Random().Next(1000, 2000));
                 result = () =>
                  {
                      Console.ForegroundColor = RadomColor(_heroModel);
-                     //Thread.Sleep(new Random().Next(1000, 2000));
+                     Thread.Sleep(new Random().Next(1000, 2000));
                      var thisPositionStory = LoadXmlStory().MyFullStory.FirstOrDefault(p => p.HeroPosition == message) ?? null;
                      if (thisPositionStory != null)
                      {
                          foreach (var item in thisPositionStory.LevelUpStory)
                          {
-                            // Thread.Sleep(new Random().Next(1000, 2000));
+                             Thread.Sleep(new Random().Next(1000, 2000));
                              MyLog.OutputAndSaveTxt(_heroModel.MyHero + "：" + item);
                          }
                      }
                      MyLog.OutputAndSaveTxt($"{_heroModel.MyHero}:完成了剧情《{message}》,时间在{time}");
-                    // Thread.Sleep(new Random().Next(1000, 2000));
+                     Thread.Sleep(new Random().Next(1000, 2000));
                  };
-
-                //if (!_standby)
-                //{
-                //    MyLog.OutputAndSaveTxt($"因为{_heroModel.MyHero}的到来:天龙八部就此拉开序幕");
-                //    Thread.Sleep(new Random().Next(1000, 2000));
-                //    _standby = true;
-                //}
+                if (!_standby)
+                {
+                    MyLog.OutputAndSaveTxt($"因为{_heroModel.MyHero}的到来:天龙八部就此拉开序幕");
+                    Thread.Sleep(new Random().Next(1000, 2000));
+                    _standby = true;
+                }
             }
             return result;
         }
+
         /// <summary>
         /// 通过XML读取故事子内容
         /// </summary>
@@ -222,6 +185,7 @@ namespace ThirdWorkService
 
                 case "虚竹":
                     return ConsoleColor.Red;
+
                 default:
                     return ConsoleColor.White;
             }
