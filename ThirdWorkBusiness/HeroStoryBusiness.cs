@@ -30,10 +30,16 @@ namespace ThirdWorkBusiness
                 TaskFactory taskFactory = new TaskFactory();
 
                 ReadSoryBusiness<HeroModel> bu = new ReadSoryBusiness<HeroModel>(_HeroModel);
-                taskList.AddRange(bu.LoadStoryTask().ToArray());
-
-                taskFactory.StartNew(taskList.ToArray);
-                //独立剧情完成后，执行一次
+                foreach (var act in bu.LoadStoryTask())
+                {
+                    taskList.Add(new Task(act));
+                    taskFactory.StartNew(act);
+                }
+                taskFactory.ContinueWhenAny(taskList.ToArray(), t =>
+                {
+                    Thread.Sleep(new Random().Next(1000, 2000));
+                    MyLog.OutputAndSaveTxt($"因为{_HeroModel.MyHero}的到来:天龙八部就此拉开序幕");
+                });                //独立剧情完成后，执行一次
                 taskFactory.ContinueWhenAll(taskList.ToArray(), t =>
                 {
                     Thread.Sleep(new Random().Next(1000, 2000));

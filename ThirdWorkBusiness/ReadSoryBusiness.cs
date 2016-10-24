@@ -14,23 +14,23 @@ namespace ThirdWorkBusiness
     public class ReadSoryBusiness<T> : IReadSoryBusiness
         where T : HeroModel
     {
-        private static object objectLock = new object();
-        private static bool Standby = false;
-        private HeroModel LoadHeroModel;
+        private static readonly object ObjectLock = new object();
+        private static bool _standby = false;
+        private readonly HeroModel _loadHeroModel;
 
         public ReadSoryBusiness(T _t)
         {
-            LoadHeroModel = _t;
+            _loadHeroModel = _t;
         }
 
         /// <summary>
         /// 准备好了一份故事Task
         /// </summary>
         /// <returns></returns>
-        public List<Task> LoadStoryTask()
+        public List<Action> LoadStoryTask()
         {
-            List<Task> taskList = new List<Task>();
-            foreach (string item in LoadHeroModel.HeroPosition)
+            List<Action> taskList = new List<Action>();
+            foreach (string item in _loadHeroModel.HeroPosition)
             {
                 taskList.Add(SingleRead(item));
             }
@@ -42,37 +42,36 @@ namespace ThirdWorkBusiness
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        private Task SingleRead(string message)
+        private Action SingleRead(string message)
         {
-            TaskFactory taskFactory = new TaskFactory();
-            string time = DateTime.Now.ToString();
+            Action result;
             Thread.Sleep(new Random().Next(1000, 2000));
-            Task result;
-            
-                result = taskFactory.StartNew(() =>
-               {
-                   Console.ForegroundColor = RadomColor();
-                   Thread.Sleep(new Random().Next(1000, 2000));
-                   var thisPositionStory = LoadXmlStory().MyFullStory.FirstOrDefault(p => p.HeroPosition == message) ?? null;
-                   if (thisPositionStory != null)
-                   {
-                       foreach (var item in thisPositionStory.LevelUpStory)
-                       {
-                           Thread.Sleep(new Random().Next(1000, 2000));
-                           MyLog.OutputAndSaveTxt(LoadHeroModel.MyHero + "：" + item);
-                       }
-                   }
-                   MyLog.OutputAndSaveTxt($"{LoadHeroModel.MyHero}:完成了剧情《{message}》,时间在{time}");
-                   Thread.Sleep(new Random().Next(1000, 2000));
-               });
-                Task.WaitAny(new Task[] { result });
-            lock (objectLock)
+            lock (ObjectLock)
             {
-                if (!Standby)
+                string time = DateTime.Now.ToString();
+                Thread.Sleep(new Random().Next(1000, 2000));
+                 result = () =>
                 {
-                    MyLog.OutputAndSaveTxt($"因为{LoadHeroModel.MyHero}的到来:天龙八部就此拉开序幕");
+                    Console.ForegroundColor = RadomColor();
                     Thread.Sleep(new Random().Next(1000, 2000));
-                    Standby = true;
+                    var thisPositionStory = LoadXmlStory().MyFullStory.FirstOrDefault(p => p.HeroPosition == message) ?? null;
+                    if (thisPositionStory != null)
+                    {
+                        foreach (var item in thisPositionStory.LevelUpStory)
+                        {
+                            Thread.Sleep(new Random().Next(1000, 2000));
+                            MyLog.OutputAndSaveTxt(_loadHeroModel.MyHero + "：" + item);
+                        }
+                    }
+                    MyLog.OutputAndSaveTxt($"{_loadHeroModel.MyHero}:完成了剧情《{message}》,时间在{time}");
+                    Thread.Sleep(new Random().Next(1000, 2000));
+                };
+
+                if (!_standby)
+                {
+                    MyLog.OutputAndSaveTxt($"因为{_loadHeroModel.MyHero}的到来:天龙八部就此拉开序幕");
+                    Thread.Sleep(new Random().Next(1000, 2000));
+                    _standby = true;
                 }
             }
             return result;
@@ -91,7 +90,7 @@ namespace ThirdWorkBusiness
 
         private ConsoleColor RadomColor()
         {
-            switch (LoadHeroModel.MyHero)
+            switch (_loadHeroModel.MyHero)
             {
                 case "乔峰":
                     return ConsoleColor.DarkYellow;
