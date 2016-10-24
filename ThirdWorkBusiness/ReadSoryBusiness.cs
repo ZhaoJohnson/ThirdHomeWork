@@ -48,8 +48,7 @@ namespace ThirdWorkBusiness
             string time = DateTime.Now.ToString();
             Thread.Sleep(new Random().Next(1000, 2000));
             Task result;
-            lock (objectLock)
-            {
+            
                 result = taskFactory.StartNew(() =>
                {
                    Console.ForegroundColor = RadomColor();
@@ -67,7 +66,8 @@ namespace ThirdWorkBusiness
                    Thread.Sleep(new Random().Next(1000, 2000));
                });
                 Task.WaitAny(new Task[] { result });
-
+            lock (objectLock)
+            {
                 if (!Standby)
                 {
                     MyLog.OutputAndSaveTxt($"因为{LoadHeroModel.MyHero}的到来:天龙八部就此拉开序幕");
@@ -101,7 +101,6 @@ namespace ThirdWorkBusiness
 
                 case "虚竹":
                     return ConsoleColor.Red;
-
                 default:
                     return ConsoleColor.White;
             }
