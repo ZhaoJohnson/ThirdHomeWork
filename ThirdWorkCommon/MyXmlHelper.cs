@@ -69,7 +69,7 @@ namespace ThirdWorkCommon
             }
             catch (Exception ex)
             {
-                MyLog.SaveEx(ex.Message);
+                MyLog.OutputAndSaveTxt(ex.Message);
             }
             return returnObject;
         }

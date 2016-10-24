@@ -13,7 +13,7 @@ namespace ThirdWorkCommon
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="t"></param>
-        public static void object2Json<T>(T t)
+        public static void Object2JsonFile<T>(T t)
         {
             string myjsonName = typeof(T).Name + ".json";
             string tjson = JsonConvert.SerializeObject(t);

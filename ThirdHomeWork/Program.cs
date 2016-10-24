@@ -1,5 +1,6 @@
 ﻿using System;
 using ThirdWorkCommon;
+using ThirdWorkInterFace.IService;
 using ThirdWorkService;
 
 namespace ThirdHomeWork
@@ -10,7 +11,7 @@ namespace ThirdHomeWork
         {
             try
             {
-                LegendService Service = new LegendService();
+                ILegendService Service = new LegendService();
                 Service.Show();
                 Console.WriteLine("请按任意键退出");
                 Console.ReadKey();

@@ -32,30 +32,5 @@ namespace ThirdWorkCommon
                 rwl.ReleaseWriterLock();
             }
         }
-
-        /// <summary>
-        /// 异常调用此方法记录
-        /// </summary>
-        /// <param name="message"></param>
-        public static void SaveEx(string message)
-        {
-            Console.WriteLine(message);
-
-            string LogPath = TheBasePath + "MyLogs";
-            string dateTodayfileName = DateTime.Now.ToString("mmmm_dd_yyyy") + "logs.txt";
-            if (!Directory.Exists(LogPath))
-                Directory.CreateDirectory(LogPath);
-            DirectoryInfo mylogpath = new DirectoryInfo(LogPath);
-            var FullPath = Path.Combine(LogPath, dateTodayfileName);
-
-            FileStream myfs = new FileStream(FullPath, FileMode.OpenOrCreate);
-            using (StreamWriter mysw = new StreamWriter(myfs))
-            {
-                mysw.WriteLine(message);
-                mysw.Flush();
-                mysw.Close();
-                myfs.Close();
-            }
-        }
     }
 }

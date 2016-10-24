@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <FullStoryModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <MyFullStory>
-     <StoryModel>
+    <StoryModel>
       <HeroPosition>丐帮帮主</HeroPosition>
       <LevelUpStory>
-        <string>淘宝买的打狗棒，说明书上写了可以成为丐帮帮主</string>
+        <string>参加一元购买到了打狗棒，说明书上写了可以成为丐帮帮主</string>
         <string>第一步：用假钞贿赂了7袋长老</string>
         <string>第二步：推行民主，用打狗棒讲道理...</string>
-		<string>第三步：还是以德服人...</string>
-		<string>果然成为 丐帮帮主...</string>
+        <string>第三步：还是以德服人...</string>
+        <string>果然成为 丐帮帮主...</string>
       </LevelUpStory>
     </StoryModel>
     <StoryModel>
@@ -17,7 +17,7 @@
         <string>当初为了高考加分改成了少数名族</string>
         <string>碰到了初恋女友发现是少数名族很开心</string>
         <string>结果爸爸说他的少数名族证要取消了</string>
-		<string>初恋女友伤心得走了</string>
+        <string>初恋女友伤心得走了</string>
       </LevelUpStory>
     </StoryModel>
     <StoryModel>
@@ -40,8 +40,8 @@
       <HeroPosition>小和尚</HeroPosition>
       <LevelUpStory>
         <string>刚刚来到了新手村：如来寺</string>
-        <string>巧遇扫地神僧</string>
-        <string>神僧说汝非池中之物，赶快下山找妹纸去吧.</string>
+        <string>巧遇主持，传教其尔</string>
+        <string>主持说汝非池中之物，一个妹纸会改变你的一身，快去找她吧.</string>
       </LevelUpStory>
     </StoryModel>
     <StoryModel>
@@ -52,7 +52,7 @@
         <string>买了证后就获得成就，恭喜成为《逍遥掌门》</string>
       </LevelUpStory>
     </StoryModel>
-	<StoryModel>
+    <StoryModel>
       <HeroPosition>灵鹫宫宫主</HeroPosition>
       <LevelUpStory>
         <string>一觉醒来边上有个妹纸，嘿嘿嘿</string>
@@ -60,7 +60,7 @@
         <string>奶奶挂了，给了他一个扳指，居然就获得成就，恭喜成为《灵鹫宫宫主》</string>
       </LevelUpStory>
     </StoryModel>
-	<StoryModel>
+    <StoryModel>
       <HeroPosition>西夏驸马</HeroPosition>
       <LevelUpStory>
         <string>遇到好基友，说要出去玩，那就一起去了</string>
@@ -74,7 +74,7 @@
         <string>看上一个美眉，她叫：钟灵儿</string>
         <string>和她，你侬我侬</string>
         <string>带她回家，一家人起开开心心的吃饭，饭后妈妈告诉他，这个美眉是你小妹妹</string>
-		<string>香菇，蓝瘦</string>
+        <string>香菇，蓝瘦</string>
       </LevelUpStory>
     </StoryModel>
     <StoryModel>
@@ -83,7 +83,7 @@
         <string>看上一个美眉，她叫：木婉清</string>
         <string>和她，你侬我侬</string>
         <string>带她回家，一家人起开开心心的吃饭，饭后妈妈告诉他，这个美眉是你大妹妹</string>
-		<string>香菇，蓝瘦</string>
+        <string>香菇，蓝瘦</string>
       </LevelUpStory>
     </StoryModel>
     <StoryModel>
@@ -92,7 +92,7 @@
         <string>看上一个美眉，她叫：王语嫣</string>
         <string>和她你侬我侬</string>
         <string>带她回家，一家人起开开心心的吃饭，饭后妈妈告诉他，这个美眉是你表妹</string>
-		<string>香菇，蓝瘦</string>
+        <string>香菇，蓝瘦</string>
       </LevelUpStory>
     </StoryModel>
     <StoryModel>

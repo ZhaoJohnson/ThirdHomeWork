@@ -57,7 +57,7 @@ namespace ThirdWorkService
                     if (stop == int.Parse(DateTime.Now.Year.ToString()))
                     {
                         Thread.Sleep(1000);
-                        MyLog.SaveEx("天降雷霆灭世，天龙八部的故事就此结束...");
+                        MyLog.OutputAndSaveTxt("天降雷霆灭世，天龙八部的故事就此结束...");
                         Console.WriteLine("程序即将关闭");
                         Thread.Sleep(3000);
                         Environment.Exit(0);
@@ -68,11 +68,10 @@ namespace ThirdWorkService
 
             #endregion 监控雷劈线程
 
-            //移除子线程，避免影响主线路
-            taskList.Remove(taskForStop);
-
-            Task.WaitAny(taskList.ToArray());
-            MyLog.OutputAndSaveTxt("有人已经准备好了");
+            Task.Factory.ContinueWhenAny(taskList.ToArray(), Callback =>
+             {
+                 Console.WriteLine("有人已经准备好了");
+             });
             Thread.Sleep(5000);
             Task.WaitAll(taskList.ToArray());
             MyLog.OutputAndSaveTxt($"中原群雄大战辽兵，忠义两难一死谢天,{DateTime.Now.ToString()}");
@@ -131,34 +130,34 @@ namespace ThirdWorkService
         private Action SingleHero(HeroModel _heroModel, string message)
         {
             Action result;
+            Thread.Sleep(new Random().Next(1000, 5000));
+
+            string time = DateTime.Now.ToString();
             Thread.Sleep(new Random().Next(1000, 2000));
-            lock (ObjectLock)
-            {
-                string time = DateTime.Now.ToString();
-                Thread.Sleep(new Random().Next(1000, 2000));
-                result = () =>
+            result = () =>
+             {
+                 Thread.Sleep(new Random().Next(1000, 2000));
+                 var thisPositionStory = LoadXmlStory().MyFullStory.FirstOrDefault(p => p.HeroPosition == message) ?? null;
+                 if (thisPositionStory != null)
                  {
-                     Console.ForegroundColor = RadomColor(_heroModel);
-                     Thread.Sleep(new Random().Next(1000, 2000));
-                     var thisPositionStory = LoadXmlStory().MyFullStory.FirstOrDefault(p => p.HeroPosition == message) ?? null;
-                     if (thisPositionStory != null)
+                     foreach (var item in thisPositionStory.LevelUpStory)
                      {
-                         foreach (var item in thisPositionStory.LevelUpStory)
+                         Console.ForegroundColor = RadomColor(_heroModel);
+                         MyLog.OutputAndSaveTxt(_heroModel.MyHero + "：" + item);
+                         lock (ObjectLock)
                          {
-                             Thread.Sleep(new Random().Next(1000, 2000));
-                             MyLog.OutputAndSaveTxt(_heroModel.MyHero + "：" + item);
+                             if (!_standby)
+                             {
+                                 MyLog.OutputAndSaveTxt($"因为{_heroModel.MyHero}的到来:天龙八部就此拉开序幕");
+                                 _standby = true;
+                             }
                          }
                      }
-                     MyLog.OutputAndSaveTxt($"{_heroModel.MyHero}:完成了剧情《{message}》,时间在{time}");
-                     Thread.Sleep(new Random().Next(1000, 2000));
-                 };
-                if (!_standby)
-                {
-                    MyLog.OutputAndSaveTxt($"因为{_heroModel.MyHero}的到来:天龙八部就此拉开序幕");
-                    Thread.Sleep(new Random().Next(1000, 2000));
-                    _standby = true;
-                }
-            }
+                 }
+                 MyLog.OutputAndSaveTxt($"{_heroModel.MyHero}:完成了剧情《{message}》,时间在{time}");
+                 Thread.Sleep(new Random().Next(1000, 2000));
+             };
+
             return result;
         }
 
