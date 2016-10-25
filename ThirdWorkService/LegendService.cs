@@ -46,27 +46,35 @@ namespace ThirdWorkService
 
             #region 监控雷劈线程
 
-            var taskForStop = Task.Factory.StartNew(() =>
+            taskList.Add(Task.Factory.StartNew(() =>
             {
                 while (Standby)
                 {
                     Thread.Sleep(1000);
                     int stop = new Random().Next(0, 10000);
                     Console.WriteLine();
-
-                    if (stop == int.Parse(DateTime.Now.Year.ToString()))
+                    if (stop != int.Parse(DateTime.Now.Year.ToString())) continue;
+                    try
                     {
                         Thread.Sleep(1000);
                         MyLog.OutputAndSaveTxt("天降雷霆灭世，天龙八部的故事就此结束...");
                         Console.WriteLine("程序即将关闭");
-                        Thread.Sleep(3000);
-                        Environment.Exit(0);
+                        Standby = false;
+                        token.Token.ThrowIfCancellationRequested();
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        //收集OperationCanceledException
+                        token.Cancel();
+                        Console.WriteLine("关闭");
                     }
                 }
                 this.Dispose();
-            });
+            },token.Token));
 
             #endregion 监控雷劈线程
+
+            
 
             Task.Factory.ContinueWhenAny(taskList.ToArray(), Callback =>
              {
@@ -75,7 +83,6 @@ namespace ThirdWorkService
             Thread.Sleep(5000);
             Task.WaitAll(taskList.ToArray());
             MyLog.OutputAndSaveTxt($"中原群雄大战辽兵，忠义两难一死谢天,{DateTime.Now.ToString()}");
-            //通过修正指正来停止监控线程
             Standby = false;
             watch.Stop();
             MyLog.OutputAndSaveTxt($"天龙八部全篇用时：{watch.ElapsedMilliseconds}ms");
@@ -143,9 +150,9 @@ namespace ThirdWorkService
                      foreach (var item in thisPositionStory.LevelUpStory)
                      {
                          Console.ForegroundColor = RadomColor(_heroModel);
-                         MyLog.OutputAndSaveTxt(_heroModel.MyHero + "：" + item);
                          lock (ObjectLock)
                          {
+                             MyLog.OutputAndSaveTxt(_heroModel.MyHero + "：" + item);
                              if (!_standby)
                              {
                                  MyLog.OutputAndSaveTxt($"因为{_heroModel.MyHero}的到来:天龙八部就此拉开序幕");
@@ -189,6 +196,7 @@ namespace ThirdWorkService
                     return ConsoleColor.White;
             }
         }
+
 
         public void Dispose()
         {
