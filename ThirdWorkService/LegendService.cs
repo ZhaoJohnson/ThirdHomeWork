@@ -6,7 +6,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using ThirdWorkBusiness;
 using ThirdWorkCommon;
 using ThirdWorkInterFace.IService;
 using ThirdWorkModel;
@@ -46,7 +45,7 @@ namespace ThirdWorkService
 
             #region 监控雷劈线程
 
-            taskList.Add(Task.Factory.StartNew(() =>
+            taskList.Add(taskFactory.StartNew(() =>
             {
                 while (Standby)
                 {
@@ -74,9 +73,9 @@ namespace ThirdWorkService
 
             #endregion 监控雷劈线程
 
-            
 
-            Task.Factory.ContinueWhenAny(taskList.ToArray(), Callback =>
+
+            taskFactory.ContinueWhenAny(taskList.ToArray(), Callback =>
              {
                  Console.WriteLine("有人已经准备好了");
              });
